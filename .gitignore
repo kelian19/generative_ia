@@ -33,3 +33,5 @@ build/
 # Generated artifacts; kept reproducible, not raw model claims
 artifacts/*.pt
 .pytest_cache/
+data/cache/
+data/era5_firms_jjas_2001_2024.nc

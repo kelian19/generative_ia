@@ -1,0 +1,312 @@
+{
+  "file": "data/era5_firms_jjas_2001_2024.nc",
+  "sha256": "aa9873f2fe1160d72f74811a3101e8b65315dd670b912f05fe12e9828eb3b00b",
+  "bytes": 33963542,
+  "days": 2928,
+  "years": [
+    2001,
+    2024
+  ],
+  "months": [
+    6,
+    7,
+    8,
+    9
+  ],
+  "hour_utc": 12,
+  "box": {
+    "lat_max": 51.0,
+    "lat_min": 41.0,
+    "lon_min": -5.0,
+    "lon_max": 10.0
+  },
+  "era5_fields": [
+    "temperature@850hPa",
+    "temperature@700hPa",
+    "specific_humidity@850hPa"
+  ],
+  "era5_url_pattern": "https://storage.googleapis.com/gcp-public-data-arco-era5/raw/date-variable-pressure_level/2001/06/01/<var>/0.nc",
+  "firms_url_pattern": "https://firms.modaps.eosdis.nasa.gov/data/country/modis/{year}/modis_{year}_{country}.csv",
+  "firms_countries": [
+    "France",
+    "Spain",
+    "Italy",
+    "Switzerland",
+    "Germany",
+    "Belgium",
+    "Luxembourg",
+    "United_Kingdom",
+    "Andorra"
+  ],
+  "firms_bytes": {
+    "2001": {
+      "France": 97479,
+      "Spain": 257381,
+      "Italy": 252413,
+      "Switzerland": 1542,
+      "Germany": 72825,
+      "Belgium": 14271,
+      "Luxembourg": 1804,
+      "United_Kingdom": 23734,
+      "Andorra": 282
+    },
+    "2002": {
+      "France": 182873,
+      "Spain": 398357,
+      "Italy": 194145,
+      "Switzerland": 2835,
+      "Germany": 115969,
+      "Belgium": 26978,
+      "Luxembourg": 1113,
+      "United_Kingdom": 35238,
+      "Andorra": null
+    },
+    "2003": {
+      "France": 358925,
+      "Spain": 578352,
+      "Italy": 478362,
+      "Switzerland": 5089,
+      "Germany": 200759,
+      "Belgium": 53664,
+      "Luxembourg": 3001,
+      "United_Kingdom": 154590,
+      "Andorra": null
+    },
+    "2004": {
+      "France": 228002,
+      "Spain": 609997,
+      "Italy": 427870,
+      "Switzerland": 3708,
+      "Germany": 140569,
+      "Belgium": 43742,
+      "Luxembourg": 1613,
+      "United_Kingdom": 49053,
+      "Andorra": null
+    },
+    "2005": {
+      "France": 218387,
+      "Spain": 540387,
+      "Italy": 294113,
+      "Switzerland": 3420,
+      "Germany": 167052,
+      "Belgium": 45739,
+      "Luxembourg": 1733,
+      "United_Kingdom": 47502,
+      "Andorra": 201
+    },
+    "2006": {
+      "France": 171563,
+      "Spain": 559822,
+      "Italy": 302892,
+      "Switzerland": 4506,
+      "Germany": 172792,
+      "Belgium": 46066,
+      "Luxembourg": 2235,
+      "United_Kingdom": 60977,
+      "Andorra": null
+    },
+    "2007": {
+      "France": 159504,
+      "Spain": 339961,
+      "Italy": 701232,
+      "Switzerland": 5527,
+      "Germany": 163409,
+      "Belgium": 41139,
+      "Luxembourg": 2476,
+      "United_Kingdom": 113878,
+      "Andorra": null
+    },
+    "2008": {
+      "France": 161283,
+      "Spain": 230531,
+      "Italy": 513224,
+      "Switzerland": 3985,
+      "Germany": 144999,
+      "Belgium": 34741,
+      "Luxembourg": 2002,
+      "United_Kingdom": 50000,
+      "Andorra": 277
+    },
+    "2009": {
+      "France": 162139,
+      "Spain": 357323,
+      "Italy": 324396,
+      "Switzerland": 3725,
+      "Germany": 105471,
+      "Belgium": 23765,
+      "Luxembourg": 1249,
+      "United_Kingdom": 56249,
+      "Andorra": null
+    },
+    "2010": {
+      "France": 123859,
+      "Spain": 208717,
+      "Italy": 372248,
+      "Switzerland": 3670,
+      "Germany": 138942,
+      "Belgium": 30332,
+      "Luxembourg": 3369,
+      "United_Kingdom": 65096,
+      "Andorra": null
+    },
+    "2011": {
+      "France": 160421,
+      "Spain": 421630,
+      "Italy": 512269,
+      "Switzerland": 6292,
+      "Germany": 183874,
+      "Belgium": 35846,
+      "Luxembourg": 3065,
+      "United_Kingdom": 96905,
+      "Andorra": null
+    },
+    "2012": {
+      "France": 166749,
+      "Spain": 479582,
+      "Italy": 608715,
+      "Switzerland": 5849,
+      "Germany": 141370,
+      "Belgium": 32925,
+      "Luxembourg": 2707,
+      "United_Kingdom": 66425,
+      "Andorra": null
+    },
+    "2013": {
+      "France": 115147,
+      "Spain": 266012,
+      "Italy": 314382,
+      "Switzerland": 3269,
+      "Germany": 141167,
+      "Belgium": 35314,
+      "Luxembourg": 2774,
+      "United_Kingdom": 40868,
+      "Andorra": 201
+    },
+    "2014": {
+      "France": 147561,
+      "Spain": 200014,
+      "Italy": 374083,
+      "Switzerland": 5353,
+      "Germany": 170039,
+      "Belgium": 37347,
+      "Luxembourg": 2458,
+      "United_Kingdom": 47674,
+      "Andorra": null
+    },
+    "2015": {
+      "France": 158075,
+      "Spain": 245092,
+      "Italy": 325539,
+      "Switzerland": 5571,
+      "Germany": 178485,
+      "Belgium": 37533,
+      "Luxembourg": 3890,
+      "United_Kingdom": 64825,
+      "Andorra": null
+    },
+    "2016": {
+      "France": 146634,
+      "Spain": 248139,
+      "Italy": 380701,
+      "Switzerland": 5754,
+      "Germany": 167800,
+      "Belgium": 46300,
+      "Luxembourg": 2757,
+      "United_Kingdom": 42569,
+      "Andorra": 202
+    },
+    "2017": {
+      "France": 212997,
+      "Spain": 400380,
+      "Italy": 656139,
+      "Switzerland": 5575,
+      "Germany": 152963,
+      "Belgium": 40079,
+      "Luxembourg": 4981,
+      "United_Kingdom": 45788,
+      "Andorra": 281
+    },
+    "2018": {
+      "France": 122447,
+      "Spain": 130927,
+      "Italy": 276658,
+      "Switzerland": 6354,
+      "Germany": 240295,
+      "Belgium": 54240,
+      "Luxembourg": 6318,
+      "United_Kingdom": 70606,
+      "Andorra": 280
+    },
+    "2019": {
+      "France": 223655,
+      "Spain": 258462,
+      "Italy": 406384,
+      "Switzerland": 4391,
+      "Germany": 213529,
+      "Belgium": 49428,
+      "Luxembourg": 5643,
+      "United_Kingdom": 69706,
+      "Andorra": 203
+    },
+    "2020": {
+      "France": 125978,
+      "Spain": 202904,
+      "Italy": 359717,
+      "Switzerland": 6690,
+      "Germany": 178224,
+      "Belgium": 44351,
+      "Luxembourg": 3516,
+      "United_Kingdom": 61726,
+      "Andorra": 281
+    },
+    "2021": {
+      "France": 171424,
+      "Spain": 374191,
+      "Italy": 554511,
+      "Switzerland": 5982,
+      "Germany": 165872,
+      "Belgium": 46168,
+      "Luxembourg": 4944,
+      "United_Kingdom": 42464,
+      "Andorra": null
+    },
+    "2022": {
+      "France": 275421,
+      "Spain": 466980,
+      "Italy": 385858,
+      "Switzerland": 5708,
+      "Germany": 222227,
+      "Belgium": 52307,
+      "Luxembourg": 3484,
+      "United_Kingdom": 65700,
+      "Andorra": 201
+    },
+    "2023": {
+      "France": 149126,
+      "Spain": 222893,
+      "Italy": 454208,
+      "Switzerland": 4647,
+      "Germany": 195932,
+      "Belgium": 36886,
+      "Luxembourg": 3844,
+      "United_Kingdom": 42863,
+      "Andorra": 207
+    },
+    "2024": {
+      "France": 108007,
+      "Spain": 167436,
+      "Italy": 269574,
+      "Switzerland": 4008,
+      "Germany": 191073,
+      "Belgium": 36077,
+      "Luxembourg": 1921,
+      "United_Kingdom": 26575,
+      "Andorra": 208
+    }
+  },
+  "firms_filter": {
+    "type": 0,
+    "min_confidence": 30
+  },
+  "fire_detections_kept_in_window": 31576
+}

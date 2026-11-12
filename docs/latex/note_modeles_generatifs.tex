@@ -1,8 +1,15 @@
 \documentclass[11pt,a4paper]{article}
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
-\usepackage{lmodern}
-\renewcommand{\familydefault}{\sfdefault}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{lmodern}
+  \renewcommand{\familydefault}{\sfdefault}
+\else
+  \usepackage{fontspec}
+  \setmainfont{lmsans10-regular}[Extension=.otf,BoldFont=lmsans10-bold,ItalicFont=lmsans10-oblique,BoldItalicFont=lmsans10-boldoblique]
+  \setmonofont{lmmono10-regular}[Extension=.otf]
+\fi
 \usepackage{babel}
 \babelprovide[import,main]{french}
 \usepackage[a4paper,margin=1.9cm,top=1.7cm,bottom=1.8cm]{geometry}
@@ -14,6 +21,9 @@
 \usepackage{enumitem}
 \usepackage{fancyhdr,lastpage}
 \usepackage{titlesec}
+\usepackage{graphicx}
+\usepackage{caption}
+\captionsetup{font={small,color=Muted},labelfont={bf,color=Forest},skip=3pt}
 \usepackage{hyperref}
 \definecolor{Forest}{HTML}{1F4E79}
 \definecolor{Sage}{HTML}{EDF2E6}
@@ -238,6 +248,12 @@ Le premier WGAN corrigé restait divergent ; ce benchmark est conservé. Des tau
 \]
 Le poids 0,1 est un hyperparamètre mesuré dans ce protocole, pas une constante universelle. Tous les modèles ont un budget total de dix époques ; le VAE pondéré répartit ce budget entre cinq époques standard et cinq pondérées. Les architectures et nombres de mises à jour restent différents.
 
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{figures/fig_wgan_stability.pdf}
+\caption{Effet de la correction du WGAN-GP sur juillet 2023. À gauche, perte du critique : l'essai initial diverge dès la quatrième époque, l'essai corrigé reste proche de zéro. À droite, distance de Wasserstein sur le test, en échelle logarithmique.}\label{fig:wgan}
+\end{figure}
+
 \begin{limitbox}
 Le test a été vu lors du diagnostic initial de divergence. La sélection est faite sur validation, mais le bilan final sur test reste \textbf{descriptif}, pas une nouvelle validation indépendante. La stabilité d'un seul entraînement à graine fixée ne démontre pas une robustesse générale.
 \end{limitbox}
@@ -261,6 +277,12 @@ cGAN & 0.8911 & 0.3738 & 11.0000 \\
 \bottomrule
 \end{tabularx}\end{center}
 Le Q99 observé sur les derniers jours de test vaut \textbf{9,7857}. Les quantiles élevés restent globalement surestimés. Certains réseaux se rapprochent du test sur la distance marginale, sans surpasser systématiquement les références simples ou établir une validité des extrêmes.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{figures/fig_july_benchmark.pdf}
+\caption{Benchmark de juillet 2023 (graine 100, dix époques). Les réseaux ne battent pas systématiquement la référence empirique ; le classement diffère entre validation et test, et les quantiles élevés générés restent au-dessus du quantile observé sur les derniers jours.}\label{fig:july}
+\end{figure}
 
 \subsection*{Un paiement par observation, sans annualisation implicite}
 Pour un seuil $u$ et une indemnité $L$ :

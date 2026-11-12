@@ -63,7 +63,7 @@ def run_experiment(epochs=10,n_samples=10000,seed=100,device='cpu',output='repor
         print(name,report['models'][name]['test'],flush=True)
     report['seconds']=time.perf_counter()-start
     folder=Path(output);folder=folder if folder.is_absolute() else ROOT/folder;folder.mkdir(parents=True,exist_ok=True)
-    (folder/'benchmark.json').write_text(json.dumps(report,ensure_ascii=False,indent=2,allow_nan=False))
+    (folder/'benchmark.json').write_text(json.dumps(report,ensure_ascii=False,indent=2,allow_nan=False),encoding='utf-8')
     (ROOT/'artifacts/preprocessing.json').write_text(json.dumps(report['target_transform'],indent=2))
     rows=[]
     for name,values in report['models'].items():
