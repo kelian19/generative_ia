@@ -1,6 +1,6 @@
 # Résultats multi-annuels (ERA5 + FIRMS, JJAS 2001–2024)
 
-Fichier `era5_firms_jjas_2001_2024.nc` (SHA256 `aa9873f2fe1160d72f74811a3101e8b65315dd670b912f05fe12e9828eb3b00b`). Apprentissage 2001–2016  validation 2017–2020  test 2021–2024 ; seuil de démonstration 8 65 (quantile 95 % de l'apprentissage). Graine 100  10 époques  sous-échantillon d'apprentissage de 200 000 mailles-jours.
+Fichier `era5_firms_jjas_2001_2024.nc` (SHA256 `aa9873f2fe1160d72f74811a3101e8b65315dd670b912f05fe12e9828eb3b00b`). Apprentissage 2001–2016, validation 2017–2020, test 2021–2024 ; seuil de démonstration 8,65 (quantile 95 % de l'apprentissage). Graine 100, 10 époques, sous-échantillon d'apprentissage de 200 000 mailles-jours.
 
 | Méthode | Wasserstein val. | Wasserstein test | Q99 généré (test) | P(indice > seuil) test |
 |---|---:|---:|---:|---:|

@@ -59,11 +59,12 @@ def main():
         template = template.replace(f'@@{key}@@', value)
     assert '@@' not in template, 'Marqueur non rempli.'
     (ROOT / 'docs/latex/section_multiannuelle.tex').write_text(template, encoding='utf-8')
+    fit_rows = f"{r['rows']['train_fit_sample']:,}".replace(',', ' ')
     md = [
         '# Résultats multi-annuels (ERA5 + FIRMS, JJAS 2001–2024)', '',
         f"Fichier `{r['data_file']}` (SHA256 `{r['data_sha256']}`). Apprentissage 2001–2016, validation 2017–2020, test 2021–2024 ; "
         f"seuil de démonstration {num(r['trigger'])} (quantile 95 % de l'apprentissage). Graine {r['seed']}, {r['epochs_budget_per_model']} époques, "
-        f"sous-échantillon d'apprentissage de {r['rows']['train_fit_sample']:,}".replace(',', ' ') + ' mailles-jours.', '',
+        f"sous-échantillon d'apprentissage de {fit_rows} mailles-jours.", '',
         '| Méthode | Wasserstein val. | Wasserstein test | Q99 généré (test) | P(indice > seuil) test |', '|---|---:|---:|---:|---:|']
     for k in NAMES:
         t, v = m[k]['test'], m[k]['validation']
