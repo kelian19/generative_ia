@@ -1,0 +1,10 @@
+{
+  "type": "identity+StandardScaler",
+  "mean": [
+    3.824544515121578
+  ],
+  "scale": [
+    3.0239726733807295
+  ],
+  "fitted_on": "train"
+}

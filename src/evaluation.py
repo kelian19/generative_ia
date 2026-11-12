@@ -1,62 +1,43 @@
 import numpy as np
 import torch
 from scipy.special import inv_boxcox
-from scipy.stats import ks_2samp, wasserstein_distance
+from scipy.stats import ks_2samp,wasserstein_distance
 
+def _inverse(scaled,scaler,lmbda,shift):
+    transformed=scaler.inverse_transform(scaled)
+    values=transformed if lmbda is None else inv_boxcox(transformed,lmbda)-shift
+    if not np.isfinite(values).all():raise FloatingPointError('Inverse non finie : aucune simulation n’est supprimée ou tronquée.')
+    return values
 
-def generate_vae_samples(model, latent_dim, scaler, lmbda, shift, n=10000):
-    model.eval()
-    with torch.no_grad():
-        z = torch.randn(n, latent_dim)
-        scaled = model.decoder(z).numpy()
-    transformed = scaler.inverse_transform(scaled)
-    return inv_boxcox(transformed, lmbda) - shift
+def _generate(model,latent_dim,scaler,lmbda,shift,n,seed,conditional=None,vae=False):
+    if n<1:raise ValueError('Nombre de simulations positif requis.')
+    device=next(model.parameters()).device;rng=torch.Generator(device=device).manual_seed(seed);was_training=model.training;model.eval()
+    try:
+        with torch.no_grad():
+            z=torch.randn(n,latent_dim,device=device,generator=rng)
+            if vae:
+                scaled=model.decoder(z)
+                scaled=scaled+torch.exp(model.log_scale.clamp(-6,3))*torch.randn(scaled.shape,device=device,generator=rng)
+            elif conditional is not None:
+                conditions=conditional.to(device)
+                if not len(conditions):raise ValueError('Conditions vides.')
+                idx=torch.randint(0,len(conditions),(n,),device=device,generator=rng);scaled=model(z,conditions[idx])
+            else:scaled=model(z)
+            return _inverse(scaled.detach().cpu().numpy(),scaler,lmbda,shift)
+    finally:model.train(was_training)
 
+def generate_vae_samples(model,latent_dim,scaler,lmbda,shift,n=10000,seed=100):return _generate(model,latent_dim,scaler,lmbda,shift,n,seed,vae=True)
+def generate_gan_samples(generator,latent_dim,scaler,lmbda,shift,n=10000,seed=100):return _generate(generator,latent_dim,scaler,lmbda,shift,n,seed)
+def generate_cgan_samples(generator,latent_dim,X_cond,scaler,lmbda,shift,n=10000,seed=100):return _generate(generator,latent_dim,scaler,lmbda,shift,n,seed,conditional=X_cond)
 
-def generate_gan_samples(generator, latent_dim, scaler, lmbda, shift, n=10000):
-    generator.eval()
-    with torch.no_grad():
-        z = torch.randn(n, latent_dim)
-        scaled = generator(z).numpy()
-    transformed = scaler.inverse_transform(scaled)
-    return inv_boxcox(transformed, lmbda) - shift
+def finite_values(values):
+    x=np.asarray(values,dtype=float).reshape(-1)
+    if not len(x) or not np.isfinite(x).all():raise ValueError('Échantillon fini et non vide requis.')
+    return x
 
-
-def generate_cgan_samples(generator, latent_dim, X_cond, scaler, lmbda, shift, n=10000):
-    generator.eval()
-    with torch.no_grad():
-        z = torch.randn(n, latent_dim)
-        idx = torch.randint(0, X_cond.shape[0], (n,))
-        cond = X_cond[idx]
-        scaled = generator(z, cond).numpy()
-    transformed = scaler.inverse_transform(scaled)
-    return inv_boxcox(transformed, lmbda) - shift
-
-
-def compute_metrics(real, generated):
-    gen_flat = generated.flatten()
-    wd = wasserstein_distance(real, gen_flat)
-    ks_stat, ks_pvalue = ks_2samp(real, gen_flat)
-    var_99_real = np.percentile(real, 99)
-    var_99_gen = np.percentile(gen_flat, 99)
-
-    metrics = {
-        'wasserstein': wd,
-        'ks_stat': ks_stat,
-        'ks_pvalue': ks_pvalue,
-        'var_99_real': var_99_real,
-        'var_99_gen': var_99_gen,
-        'max_real': real.max(),
-        'max_gen': gen_flat.max(),
-    }
-
-    print("----- MÉTRIQUES -----")
-    print(f"Wasserstein distance : {wd:.4f}")
-    print(f"KS statistic        : {ks_stat:.4f}")
-    print(f"KS p-value          : {ks_pvalue:.4f}")
-    print(f"VaR 99% réel        : {var_99_real:.4f}")
-    print(f"VaR 99% généré      : {var_99_gen:.4f}")
-    print(f"Max réel            : {real.max():.2f}")
-    print(f"Max généré          : {gen_flat.max():.2f}")
-
-    return metrics
+def compute_metrics(real,generated):
+    a=finite_values(real);b=finite_values(generated);ks=ks_2samp(a,b)
+    return {'wasserstein':float(wasserstein_distance(a,b)),'ks_stat':float(ks.statistic),'ks_pvalue_iid_diagnostic_only':float(ks.pvalue),
+       'q99_real':float(np.quantile(a,.99)),'q99_gen':float(np.quantile(b,.99)),
+       'var_99_real':float(np.quantile(a,.99)),'var_99_gen':float(np.quantile(b,.99)),
+       'std_real':float(a.std()),'std_gen':float(b.std()),'max_real':float(a.max()),'max_gen':float(b.max())}

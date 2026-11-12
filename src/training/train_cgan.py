@@ -1,61 +1,33 @@
-import torch
-import torch.nn as nn
-import torch.optim as optim
+import numpy as np
 import pandas as pd
-from sklearn.preprocessing import MinMaxScaler
-from torch.utils.data import DataLoader, TensorDataset
-from src.models.cgan import Generator, Discriminator
+import torch
+from sklearn.preprocessing import StandardScaler
+from torch.utils.data import DataLoader,TensorDataset
+from src.models.cgan import Generator,Discriminator
+from .train_gan import train_adversarial
 
+class ConditionEncoder:
+    def fit(self,df):
+        self.scaler_=StandardScaler().fit(df[['latitude','longitude']].to_numpy(dtype=float))
+        self.bounds_=df[['latitude','longitude']].agg(['min','max'])
+        self.months_=set(pd.to_datetime(df.valid_time).dt.month.unique())
+        return self
+    def transform(self,df):
+        months=pd.to_datetime(df.valid_time).dt.month.to_numpy()
+        if not set(months).issubset(self.months_):raise ValueError('Mois absent de l’apprentissage : saisonnalité hors domaine.')
+        raw_coords=df[['latitude','longitude']]
+        if ((raw_coords<self.bounds_.loc['min'])|(raw_coords>self.bounds_.loc['max'])).any().any():raise ValueError('Coordonnées hors du domaine d’apprentissage.')
+        coords=self.scaler_.transform(df[['latitude','longitude']].to_numpy(dtype=float))
+        out=np.column_stack([coords,np.sin(2*np.pi*months/12),np.cos(2*np.pi*months/12)])
+        if not np.isfinite(out).all():raise ValueError('Conditions non finies.')
+        return out
 
-def prepare_cgan_data(df, batch_size=32):
-    df = df.copy()
-    df['month'] = pd.to_datetime(df['valid_time']).dt.month
-    features = ['latitude', 'longitude', 'month']
+def prepare_cgan_data(df,batch_size=128,scaler_cond=None,seed=100):
+    encoder=ConditionEncoder().fit(df) if scaler_cond is None else scaler_cond
+    cond=torch.as_tensor(encoder.transform(df),dtype=torch.float32)
+    y=torch.as_tensor(df.haines_final.to_numpy(dtype=np.float32)).reshape(-1,1)
+    loader=DataLoader(TensorDataset(cond,y),batch_size=batch_size,shuffle=True,generator=torch.Generator().manual_seed(seed))
+    return loader,cond,encoder
 
-    scaler_cond = MinMaxScaler()
-    X_cond_np = scaler_cond.fit_transform(df[features])
-    X_cond = torch.FloatTensor(X_cond_np)
-    y = torch.FloatTensor(df['haines_final'].values).view(-1, 1)
-
-    loader = DataLoader(TensorDataset(X_cond, y), batch_size=batch_size, shuffle=True)
-    print(f"DataLoader cGAN prêt : {len(y)} échantillons, cond_dim={X_cond.shape[1]}")
-    return loader, X_cond, scaler_cond
-
-
-def train_cgan(train_loader, X_cond, cfg):
-    latent_dim = cfg['latent_dim']
-    cond_dim = X_cond.shape[1]
-
-    generator = Generator(latent_dim, cond_dim)
-    discriminator = Discriminator(cond_dim)
-
-    g_opt = optim.Adam(generator.parameters(), lr=cfg['lr'], betas=(0.5, 0.999))
-    d_opt = optim.Adam(discriminator.parameters(), lr=cfg['lr'], betas=(0.5, 0.999))
-    criterion = nn.BCELoss()
-
-    print(f"Entraînement cGAN ({cfg['epochs']} époques)...")
-
-    for epoch in range(cfg['epochs']):
-        for cond, real in train_loader:
-            bs = real.size(0)
-            real_labels = torch.ones(bs, 1)
-            fake_labels = torch.zeros(bs, 1)
-
-            d_opt.zero_grad()
-            d_loss = criterion(discriminator(real, cond), real_labels)
-            z = torch.randn(bs, latent_dim)
-            fake = generator(z, cond)
-            d_loss += criterion(discriminator(fake.detach(), cond), fake_labels)
-            d_loss.backward()
-            d_opt.step()
-
-            g_opt.zero_grad()
-            g_loss = criterion(discriminator(fake, cond), real_labels)
-            g_loss.backward()
-            g_opt.step()
-
-        if (epoch + 1) % 10 == 0:
-            print(f"  Époque {epoch+1}/{cfg['epochs']} | D: {d_loss.item():.4f} | G: {g_loss.item():.4f}")
-
-    print("Entraînement cGAN terminé.")
-    return generator, discriminator
+def train_cgan(train_loader,X_cond,cfg):
+    return train_adversarial(train_loader,cfg,Generator(cfg['latent_dim'],X_cond.shape[1]),Discriminator(X_cond.shape[1]),conditional=True)

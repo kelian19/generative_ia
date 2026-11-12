@@ -30,3 +30,6 @@ build/
 
 # Logs
 *.log
+# Generated artifacts; kept reproducible, not raw model claims
+artifacts/*.pt
+.pytest_cache/

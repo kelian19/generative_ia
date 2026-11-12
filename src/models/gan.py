@@ -7,7 +7,7 @@ class Generator(nn.Module):
         self.model = nn.Sequential(
             nn.Linear(latent_dim, 64), nn.LeakyReLU(0.2),
             nn.Linear(64, 32), nn.LeakyReLU(0.2),
-            nn.Linear(32, 1), nn.Sigmoid(),
+            nn.Linear(32, 1),
         )
 
     def forward(self, z):
@@ -20,7 +20,7 @@ class Discriminator(nn.Module):
         self.model = nn.Sequential(
             nn.Linear(1, 32), nn.LeakyReLU(0.2),
             nn.Linear(32, 16), nn.LeakyReLU(0.2),
-            nn.Linear(16, 1), nn.Sigmoid(),
+            nn.Linear(16, 1),
         )
 
     def forward(self, x):

@@ -1,0 +1,80 @@
+{
+  "selection_uses": "validation only",
+  "test_used_for_trials": false,
+  "initial_unstable_run_preserved": "benchmark_initial.json",
+  "generator_initialization": "Gaussian reference plus zero-initialized learned residual",
+  "trials": [
+    {
+      "config": {
+        "latent_dim": 16,
+        "lr_g": 0.0001,
+        "lr_c": 0.0001,
+        "epochs": 10,
+        "n_critic": 5,
+        "gp_lambda": 10.0,
+        "device": "cpu"
+      },
+      "validation": {
+        "wasserstein": 56.821664716461406,
+        "ks_stat": 1.0,
+        "ks_pvalue_iid_diagnostic_only": 0.0,
+        "q99_real": 11.570107650756814,
+        "q99_gen": -25.629374351501465,
+        "var_99_real": 11.570107650756814,
+        "var_99_gen": -25.629374351501465,
+        "std_real": 2.75987502151826,
+        "std_gen": 14.180477524389799,
+        "max_real": 13.018020629882812,
+        "max_gen": -15.330394744873047
+      }
+    },
+    {
+      "config": {
+        "latent_dim": 16,
+        "lr_g": 0.0001,
+        "lr_c": 0.001,
+        "epochs": 10,
+        "n_critic": 5,
+        "gp_lambda": 10.0,
+        "device": "cpu"
+      },
+      "validation": {
+        "wasserstein": 45.01411181862662,
+        "ks_stat": 1.0,
+        "ks_pvalue_iid_diagnostic_only": 0.0,
+        "q99_real": 11.570107650756814,
+        "q99_gen": -19.18725772857665,
+        "var_99_real": 11.570107650756814,
+        "var_99_gen": -19.18725772857665,
+        "std_real": 2.75987502151826,
+        "std_gen": 11.389954536926274,
+        "max_real": 13.018020629882812,
+        "max_gen": -11.095975875854492
+      }
+    },
+    {
+      "config": {
+        "latent_dim": 16,
+        "lr_g": 0.0001,
+        "lr_c": 0.0005,
+        "epochs": 10,
+        "n_critic": 5,
+        "gp_lambda": 10.0,
+        "device": "cpu"
+      },
+      "validation": {
+        "wasserstein": 49.32086004727195,
+        "ks_stat": 1.0,
+        "ks_pvalue_iid_diagnostic_only": 0.0,
+        "q99_real": 11.570107650756814,
+        "q99_gen": -21.80880643844604,
+        "var_99_real": 11.570107650756814,
+        "var_99_gen": -21.80880643844604,
+        "std_real": 2.75987502151826,
+        "std_gen": 12.249227418546004,
+        "max_real": 13.018020629882812,
+        "max_gen": -12.956966400146484
+      }
+    }
+  ]
+}

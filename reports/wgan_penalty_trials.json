@@ -1,0 +1,56 @@
+{
+  "selection_uses": "validation only",
+  "test_used_for_trials": false,
+  "initial_unstable_run_preserved": "benchmark_initial.json",
+  "generator_initialization": "Gaussian reference plus zero-initialized learned residual",
+  "trials": [
+    {
+      "config": {
+        "latent_dim": 16,
+        "lr_g": 0.0001,
+        "lr_c": 0.001,
+        "epochs": 10,
+        "n_critic": 5,
+        "gp_lambda": 1.0,
+        "device": "cpu"
+      },
+      "validation": {
+        "wasserstein": 0.7553421377940712,
+        "ks_stat": 0.16484986360254605,
+        "ks_pvalue_iid_diagnostic_only": 1.8044507740580856e-130,
+        "q99_real": 11.570107650756814,
+        "q99_gen": 11.048690071105963,
+        "var_99_real": 11.570107650756814,
+        "var_99_gen": 11.048690071105963,
+        "std_real": 2.75987502151826,
+        "std_gen": 3.0112054798973107,
+        "max_real": 13.018020629882812,
+        "max_gen": 15.940727233886719
+      }
+    },
+    {
+      "config": {
+        "latent_dim": 16,
+        "lr_g": 0.0001,
+        "lr_c": 0.001,
+        "epochs": 10,
+        "n_critic": 5,
+        "gp_lambda": 0.1,
+        "device": "cpu"
+      },
+      "validation": {
+        "wasserstein": 0.3447123558555633,
+        "ks_stat": 0.06175703066876087,
+        "ks_pvalue_iid_diagnostic_only": 1.3631263899230812e-18,
+        "q99_real": 11.570107650756814,
+        "q99_gen": 11.906456336975104,
+        "var_99_real": 11.570107650756814,
+        "var_99_gen": 11.906456336975104,
+        "std_real": 2.75987502151826,
+        "std_gen": 3.078906964135843,
+        "max_real": 13.018020629882812,
+        "max_gen": 17.719791412353516
+      }
+    }
+  ]
+}

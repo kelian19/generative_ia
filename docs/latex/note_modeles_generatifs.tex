@@ -1,0 +1,284 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{babel}
+\babelprovide[import,main]{french}
+\usepackage[a4paper,margin=1.9cm,top=1.7cm,bottom=1.8cm]{geometry}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{booktabs,array,tabularx}
+\usepackage{microtype}
+\usepackage[table]{xcolor}
+\usepackage{tcolorbox}
+\usepackage{enumitem}
+\usepackage{fancyhdr,lastpage}
+\usepackage{titlesec}
+\usepackage{hyperref}
+\definecolor{Forest}{HTML}{1F4E79}
+\definecolor{Sage}{HTML}{EDF2E6}
+\definecolor{Ink}{HTML}{243C35}
+\definecolor{Muted}{HTML}{65756A}
+\definecolor{Amber}{HTML}{80633D}
+\definecolor{Sand}{HTML}{FBF1E3}
+\hypersetup{colorlinks=true,linkcolor=Forest,urlcolor=Forest,pdfauthor={Projet generative\_ia},pdflang={fr-FR}}
+\color{Ink}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\setlength{\headheight}{15pt}
+\setlength{\emergencystretch}{2em}
+\linespread{1.08}
+\setlist[itemize]{leftmargin=1.3em,itemsep=3pt,topsep=4pt}
+\setlist[enumerate]{leftmargin=1.5em,itemsep=4pt,topsep=4pt}
+\titleformat{\section}{\Large\bfseries\color{Forest}}{\thesection}{.65em}{}
+\titleformat{\subsection}{\normalsize\bfseries\color{Forest}}{}{0pt}{}
+\titlespacing*{\section}{0pt}{9pt}{8pt}
+\titlespacing*{\subsection}{0pt}{9pt}{3pt}
+\newtcolorbox{keybox}{colback=Sage,colframe=Sage,boxrule=0pt,arc=3mm,left=3mm,right=3mm,top=2mm,bottom=2mm}
+\newtcolorbox{limitbox}{colback=Sand,colframe=Sand,boxrule=0pt,arc=3mm,left=3mm,right=3mm,top=2mm,bottom=2mm}
+\newcommand{\E}{\mathbb E}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\G}{\operatorname{Gamma}}
+\newcommand{\Pois}{\operatorname{Poisson}}
+\newcommand{\NB}{\operatorname{NB2}}
+\newcommand{\RMSEP}{\operatorname{RMSEP}}
+\newcommand{\MSEP}{\operatorname{MSEP}}
+\newcommand{\smallnote}[1]{{\small\color{Muted}#1}}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\bfseries\color{Forest}RISQUE CLIMATIQUE / MODÈLES GÉNÉRATIFS}
+\fancyhead[R]{\small\color{Muted}Version du 12 novembre 2026}
+\fancyfoot[L]{\footnotesize\color{Muted}Méthodes implémentées, résultats mesurés, limites explicites.}
+\fancyfoot[R]{\footnotesize\color{Forest}\thepage\,/\,\pageref{LastPage}}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\hypersetup{pdftitle={Modèles génératifs de C-Haines — méthodes corrigées et validation}}
+\begin{document}
+{\small\color{Muted}ÉTUDE MÉTHODOLOGIQUE / COPIE CORRIGÉE}
+\vspace{5mm}
+
+{\fontsize{26}{30}\selectfont\bfseries\color{Forest}Générer des scénarios\par climatiques : corriger\par les modèles et leur évaluation.}
+
+{\large VAE, objectif pondéré, GAN, WGAN-GP et cGAN.}
+\vspace{3mm}
+\begin{keybox}
+\textbf{Périmètre réel.} Le projet compare des distributions \emph{scalaires} d'un C-Haines approché depuis le fichier ERA5 fourni. Il ne simule pas un champ atmosphérique conjoint, des départs de feux ou des pertes d'assurance.
+\end{keybox}
+
+\section*{Un mois de données, un protocole explicite}
+Le fichier contient \textbf{31 jours de juillet 2023}, à 12 h, sur $41\times61$ mailles. Les 1\,839 mailles-dates de RH hors du domaine retenu sont masquées et comptées, sans être tronquées en valeurs valides.
+
+\begin{center}
+\begin{tabular}{lrr}
+\toprule
+Échantillon & Période de juillet 2023 & Observations \\
+\midrule
+Apprentissage & 1--18 & 44\,332 \\
+Validation & 20--24 & 12\,097 \\
+Test descriptif & 26--31 & 14\,410 \\
+\bottomrule
+\end{tabular}
+\end{center}
+Les 19 et 25 juillet constituent l'embargo. Toutes les mailles d'une date restent ensemble. La standardisation est ajustée sur l'apprentissage uniquement.
+
+\subsection*{Corrections livrées}
+Indicateur clarifié ; suppression de la borne Sigmoid/MinMax ; vraisemblance continue et bruit d'observation VAE ; pertes adversariales stabilisées ; WGAN-GP sans inflation artificielle de dispersion ; conditions cycliques ; métriques et unité du paiement corrigées. Le notebook ne conserve plus les anciens résultats ou conclusions de production.
+
+\begin{limitbox}
+\textbf{Validation limitée.} Un seul mois ne permet ni apprentissage saisonnier ni validation de risque climatique annuel. L'extrapolation au-delà du maximum appris devient possible, sans garantir qu'un scénario extrême soit physiquement plausible. Aucun modèle n'est déclaré prêt pour une tarification annuelle.
+\end{limitbox}
+\smallnote{Copie de \texttt{Kelian2909/generative\_ia}, commit \texttt{bca170c92297e2155c28663772c2bd9914987e1f}. Code corrigé et historique conservés dans \texttt{kelian19/generative\_ia}.}
+
+\newpage
+\section{Indicateur et prétraitement}
+\subsection*{C-Haines : instabilité et sécheresse}
+En degrés Celsius, la composante de stabilité est
+\[
+C_A=\frac{T_{850}-T_{700}}2-2.
+\]
+Le point de rosée $T_{d,850}$ est approché par Magnus à partir de $T=T_{850}$ et de l'humidité relative $h$ en pourcentage :
+\[
+\gamma=\log(h/100)+\frac{17{,}625T}{243{,}04+T},\qquad
+T_d=\frac{243{,}04\gamma}{17{,}625-\gamma}.
+\]
+La dépression du point de rosée est limitée pour le calcul de la composante sèche :
+\[
+d=\min(T_{850}-T_{d,850},30),\qquad B=d/3-1,
+\]
+\[
+C_B=\begin{cases}B,&B\leq5,\\5+(B-5)/2,&B>5.\end{cases}
+\qquad \boxed{H=C_A+C_B.}
+\]
+Les températures source en kelvins sont converties en Celsius. Le fichier est contrôlé pour les unités K et \%, et pour les niveaux 850 et 700 hPa.
+
+\begin{limitbox}
+L'ancienne formule $(T_{850}-T_{700})+(100-h_{850})/5$ était un proxy, pas ce C-Haines. Ses seuils et anciens résultats ne sont pas transférés. Elle reste accessible seulement sous l'option explicite \texttt{legacy\_proxy}.
+\end{limitbox}
+
+\subsection*{Qualité et support des données}
+Pour l'approximation retenue, les RH hors $]0,100]$ et les données non finies sont masquées. Ce choix est documenté : il ne signifie pas que toute supersaturation est physiquement impossible. Aucun masque orographique n'est disponible pour vérifier si les niveaux de pression sont sous le relief. Le point de rosée est approché, pas extrait directement d'ERA5.
+
+\subsection*{Standardisation apprise sur train}
+\[
+\mu_{\rm tr}=\frac1{n_{\rm tr}}\sum_{i\in\rm tr}H_i,\qquad
+s_{\rm tr}^2=\frac1{n_{\rm tr}}\sum_{i\in\rm tr}(H_i-\mu_{\rm tr})^2,
+\qquad x_i=\frac{H_i-\mu_{\rm tr}}{s_{\rm tr}}.
+\]
+Validation et test utilisent ces \emph{mêmes} paramètres. La sortie des générateurs n'est plus bornée par une Sigmoid ; l'inverse est $H^*=\mu_{\rm tr}+s_{\rm tr}x^*$. Aucun rejet ou écrêtage silencieux n'est appliqué pour améliorer les métriques.
+
+\newpage
+\section{VAE et objectif pondéré}
+\subsection*{Une variable latente et une vraisemblance continue}
+Le modèle suppose un a priori $p(z)=\mathcal N(0,I)$ et un encodeur
+\[
+q_\phi(z\mid x)=\mathcal N\!\left(\mu_\phi(x),\operatorname{diag}(\exp\ell_\phi(x))\right).
+\]
+La reparamétrisation est
+\[
+z=\mu_\phi(x)+\exp\!\left(\tfrac12\ell_\phi(x)\right)\odot\varepsilon,
+\qquad \varepsilon\sim\mathcal N(0,I).
+\]
+Pour la cible standardisée, le décodeur donne une moyenne non bornée $m_\theta(z)$ et un écart-type appris $\sigma_\theta>0$ :
+\[
+p_\theta(x\mid z)=\mathcal N(m_\theta(z),\sigma_\theta^2).
+\]
+L'objectif minimisé, pour $\beta=1$ par défaut, est l'opposé de l'ELBO :
+\[
+\mathcal L_{\rm VAE}=\sum_i\E_{q_\phi(z\mid x_i)}[-\log p_\theta(x_i\mid z)]
++\beta\sum_i D_{KL}\!\left(q_\phi(z\mid x_i)\|p(z)\right),
+\]
+\[
+-\log p_\theta(x\mid z)=\frac{(x-m_\theta(z))^2}{2\sigma_\theta^2}
++\log\sigma_\theta+\tfrac12\log(2\pi).
+\]
+Pour le latent diagonal,
+\[
+D_{KL}=\frac12\sum_j\left(\mu_j^2+\exp\ell_j-1-\ell_j\right).
+\]
+La génération tire $z\sim\mathcal N(0,I)$ \emph{et} le bruit d'observation :
+\[
+\boxed{x^*=m_\theta(z)+\sigma_\theta\epsilon,\qquad\epsilon\sim\mathcal N(0,1).}
+\]
+Utiliser seulement les moyennes du décodeur peut réduire artificiellement la dispersion. La correction ne démontre pas que la famille gaussienne décrit correctement la queue.
+
+\subsection*{VAE pondéré : objectif modifié, pas loi de queue validée}
+La reconstruction est pondérée par
+\[
+w_i=\frac{\exp(s\,\operatorname{sigmoid}(x_i))}
+{\frac1{B}\sum_{k\in\mathrm{batch}}\exp(s\,\operatorname{sigmoid}(x_k))},
+\qquad 0\leq s\leq10.
+\]
+Le terme de reconstruction gaussienne est multiplié par $w_i$ ; le KL reste explicite. Les poids bornent l'effet exponentiel et leur moyenne de batch vaut 1. Cette modification favorise certaines observations ; ce n'est pas une preuve d'amélioration des probabilités rares. Les pertes et scores hors apprentissage restent nécessaires.
+
+\newpage
+\section{GAN et GAN conditionnel}
+\subsection*{Générateur et discriminateur à logits}
+Le générateur non borné $G_\theta(z)$ transforme un bruit latent gaussien. Le discriminateur renvoie un logit $d_\psi(x)$, avec $D_\psi(x)=\operatorname{sigmoid}(d_\psi(x))$ pour interpréter une probabilité.
+
+L'objectif discriminateur livré est
+\[
+\mathcal L_D=-\tfrac12\left(
+\E_{x\sim P_{\rm tr}}\log D_\psi(x)
++\E_z\log[1-D_\psi(G_\theta(z))]\right).
+\]
+Le générateur utilise la perte non saturante :
+\[
+\boxed{\mathcal L_G=-\E_z\log D_\psi(G_\theta(z)).}
+\]
+Les calculs sont effectués directement depuis les logits par \texttt{BCEWithLogitsLoss}, plus stable numériquement que l'application séparée de Sigmoid puis BCE. Le discriminateur est gelé pendant la mise à jour du générateur ; les pertes non finies interrompent l'entraînement.
+
+\subsection*{Conditions du cGAN}
+Le cGAN reçoit une condition $c$ dans le générateur et le discriminateur :
+\[
+G_\theta(z,c),\qquad d_\psi(x,c).
+\]
+La condition est
+\[
+c=\left(\operatorname{std}_{\rm tr}(\mathrm{latitude}),\ 
+\operatorname{std}_{\rm tr}(\mathrm{longitude}),\
+\sin(2\pi m/12),\ \cos(2\pi m/12)\right),
+\]
+où $m$ est le mois. La transformation spatiale est ajustée sur train ; l'encodeur refuse les mois ou coordonnées hors du domaine observé. Pour l'évaluation, les conditions connues des dates retenues sont échantillonnées sans utiliser leurs valeurs cibles pour entraîner le modèle.
+
+\begin{limitbox}
+\textbf{Un seul mois.} Le mois vaut toujours juillet dans la source : le codage cyclique est correct, mais ne permet pas d'apprendre une variation saisonnière à partir de ce fichier. L'entraînement conditionnel ne garantit pas non plus une cohérence jointe entre toutes les mailles d'un champ.
+\end{limitbox}
+
+\subsection*{Ce qu'un échantillon généré ne prouve pas}
+Un maximum synthétique supérieur au maximum observé montre une extrapolation numérique. Il ne valide ni un événement météorologique cohérent ni une fréquence de départ de feu. La validité doit être évaluée sur des données indépendantes, une période suffisamment longue et des événements observés.
+
+\newpage
+\section{WGAN-GP : corriger la stabilité}
+\subsection*{Objectif du critique et pénalité de gradient}
+Le critique $f_\psi$ n'a pas de Sigmoid. Pour $\widehat x=\alpha x+(1-\alpha)G_\theta(z)$, $\alpha\sim\mathcal U(0,1)$ :
+\[
+\mathcal L_C=\E_z[f_\psi(G_\theta(z))]-\E_{x\sim P_{\rm tr}}[f_\psi(x)]
++\lambda_{GP}\E_{\widehat x}\left[(\|\nabla_{\widehat x}f_\psi(\widehat x)\|_2-1)^2\right].
+\]
+\[
+\boxed{\mathcal L_G=-\E_z[f_\psi(G_\theta(z))].}
+\]
+Le coefficient $\alpha$ et les calculs de gradient utilisent le même device et dtype que les données. Les mises à jour suivent un compteur global : cinq étapes du critique par étape du générateur dans la configuration retenue.
+
+\subsection*{Suppression d'un objectif qui déformait la distribution}
+L'ancienne perte ajoutait une pénalité proportionnelle à $1/\operatorname{std}(G(z))$. La réduire encourageait une augmentation de dispersion, sans calibration de risque. Avec un batch de taille 1, l'écart-type corrigé pouvait aussi devenir non fini. Cette pénalité est supprimée ; la perte du générateur reste celle ci-dessus.
+
+Le générateur corrigé part d'une référence gaussienne et apprend un résidu :
+\[
+G_\theta(z)=z_1+R_\theta(z),\qquad R_{\theta_0}(z)=0.
+\]
+L'initialisation évite une sortie initiale presque constante ; elle ne fixe ni les moments finaux ni une cible de queue.
+
+\subsection*{Essais de validation et paramètres retenus}
+Le premier WGAN corrigé restait divergent ; ce benchmark est conservé. Des taux d'apprentissage et poids de pénalité ont ensuite été comparés sur la validation uniquement. La configuration retenue est
+\[
+\eta_C=10^{-3},\quad\eta_G=10^{-4},\quad n_{\rm critic}=5,
+\quad\lambda_{GP}=0{,}1.
+\]
+Le poids 0,1 est un hyperparamètre mesuré dans ce protocole, pas une constante universelle. Tous les modèles ont un budget total de dix époques ; le VAE pondéré répartit ce budget entre cinq époques standard et cinq pondérées. Les architectures et nombres de mises à jour restent différents.
+
+\begin{limitbox}
+Le test a été vu lors du diagnostic initial de divergence. La sélection est faite sur validation, mais le bilan final sur test reste \textbf{descriptif}, pas une nouvelle validation indépendante. La stabilité d'un seul entraînement à graine fixée ne démontre pas une robustesse générale.
+\end{limitbox}
+
+\newpage
+\section{Résultats, paiement et limites}
+La distance de Wasserstein compare les distributions marginales en unités C-Haines ; plus faible est meilleur. Les références empirique et normale sont ajustées sur train. Graine 100, dix époques, 10\,000 échantillons générés par modèle.
+
+\begin{center}\small
+\begin{tabularx}{\linewidth}{Xrrr}
+\toprule
+Méthode & Wasserstein val. & Wasserstein test & Q99 généré \\
+\midrule
+Référence empirique & 0.2776 & 0.5687 & 11.7508 \\
+Référence normale & 0.6472 & 0.8553 & 10.9723 \\
+VAE & 0.3309 & 0.5987 & 11.3038 \\
+VAE pondéré & 0.3448 & 0.7923 & 11.7647 \\
+GAN & 0.3175 & 0.3446 & 11.4235 \\
+WGAN-GP & 0.3447 & 0.6391 & 11.9065 \\
+cGAN & 0.8911 & 0.3738 & 11.0000 \\
+\bottomrule
+\end{tabularx}\end{center}
+Le Q99 observé sur les derniers jours de test vaut \textbf{9,7857}. Les quantiles élevés restent globalement surestimés. Certains réseaux se rapprochent du test sur la distance marginale, sans surpasser systématiquement les références simples ou établir une validité des extrêmes.
+
+\subsection*{Un paiement par observation, sans annualisation implicite}
+Pour un seuil $u$ et une indemnité $L$ :
+\[
+\boxed{\E[P]=L\,\Pr(H>u).}
+\]
+Le benchmark emploie $u=Q_{0,95}(H_{\rm train})$ et une indemnité hypothétique de 10\,000 unités monétaires. Le seuil est démonstratif, sans calibration contractuelle. L'unité est une maille et un pas de temps : ce calcul n'est pas une prime annuelle. Annualiser requiert une définition du contrat, un portefeuille et une structure jointe temporelle/spatiale.
+
+\subsection*{Tests et limites de validation}
+Les \textbf{21 tests} exécutés couvrent indicateur, données invalides, dates, transformations, architectures, bruit VAE, gradient penalty analytique, batches de taille 1, mises à jour, domaines, reproductibilité CPU et paiement. Le notebook est nettoyé et exécuté avec les fonctions corrigées.
+
+Les mailles ne sont pas iid ; les p-values KS restent diagnostiques. Un mois sur les mêmes localisations ne valide ni saisonnalité, ni climat futur, ni fréquence de feu, ni pertes assurées. Des années supplémentaires et des événements/pertes observés sont nécessaires avant une application d'assurance.
+
+\subsection*{Code, audit et références}\footnotesize
+\begin{itemize}[itemsep=1pt]
+\item \href{https://github.com/kelian19/generative_ia}{Copie corrigée : kelian19/generative\_ia}. Rapports \texttt{AUDIT.md}, \texttt{RESULTATS.md} et \texttt{benchmark.json}.
+\item \href{https://github.com/Kelian2909/generative_ia}{Dépôt source : Kelian2909/generative\_ia}.
+\item \href{https://library.dbca.wa.gov.au/FullTextFiles/921091.pdf}{Mills et McCaw (2010), formulation du C-Haines}.
+\item \href{https://arxiv.org/abs/1312.6114}{Kingma et Welling, VAE} ; \href{https://arxiv.org/abs/1406.2661}{Goodfellow et al., GAN} ; \href{https://arxiv.org/abs/1704.00028}{Gulrajani et al., WGAN-GP}.
+\end{itemize}
+\end{document}

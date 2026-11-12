@@ -9,7 +9,7 @@ LIGHT_BG = '#f6f7f9'
 RED = '#ef4444'
 LIGHT_BLUE = '#60a5fa'
 
-plt.rcParams['font.family'] = ['Inter', 'sans-serif']
+plt.rcParams['font.family'] = ['DejaVu Sans', 'sans-serif']
 
 
 def plot_eda(df):
@@ -86,8 +86,8 @@ def plot_kde(df, synth, label='Synthétique', title='Comparaison des Distributio
 
     print(f"Max Réel (ERA5)       : {max_reel:.2f}")
     print(f"Max Synthétique (IA)  : {max_synth:.2f}")
-    print(f"VaR 99% Réelle        : {np.percentile(df['haines_index'], 99):.2f}")
-    print(f"VaR 99% IA            : {np.percentile(synth, 99):.2f}")
+    print(f"Quantile 99% Réelle        : {np.percentile(df['haines_index'], 99):.2f}")
+    print(f"Quantile 99% IA            : {np.percentile(synth, 99):.2f}")
 
 
 def plot_models_comparison(df, haines_gan, h_synth_wgan):
@@ -96,7 +96,7 @@ def plot_models_comparison(df, haines_gan, h_synth_wgan):
 
     sns.kdeplot(df['haines_index'], label='Réalité (ERA5)', color=DARK_GREY, lw=3, fill=True, alpha=0.1)
     sns.kdeplot(haines_gan.flatten(), label='GAN Classique', color=LIGHT_BLUE, lw=2, linestyle='-.')
-    sns.kdeplot(h_synth_wgan.flatten(), label='WGAN-GP (Tail Risk)', color=MAIN_COLOR, lw=3)
+    sns.kdeplot(h_synth_wgan.flatten(), label='WGAN-GP', color=MAIN_COLOR, lw=3)
     plt.axvline(df['haines_index'].max(), color=RED, linestyle=':', label='Limite Historique')
 
     plt.title("Évolution des Modèles Génératifs", fontsize=16, fontweight='bold')
@@ -118,7 +118,7 @@ def plot_var_analysis(df, h_synth_wgan):
     plt.axvline(var_99_wgan, color=MAIN_COLOR, linestyle='--', lw=2)
     plt.fill_betweenx([0, 0.08], var_99_wgan, h_synth_wgan.max(), color=RED, alpha=0.2)
 
-    plt.title("Analyse du Risque Extrême (VaR 99%)", fontweight='bold')
+    plt.title("Quantile 99 % de l’indicateur — comparaison", fontweight='bold')
     plt.xlabel("Indice de Haines")
     plt.ylabel("Densité")
     plt.legend()
@@ -164,8 +164,8 @@ def plot_cgan_evaluation(real, gen, var_real, var_gen):
     plt.figure(figsize=(12, 6))
     sns.kdeplot(real, label='Réalité')
     sns.kdeplot(gen, label='cGAN')
-    plt.axvline(var_real, linestyle='--', label='VaR réel')
-    plt.axvline(var_gen, linestyle='--', label='VaR cGAN')
-    plt.title("Analyse des extrêmes (queue de distribution)")
+    plt.axvline(var_real, linestyle='--', label='Q99 observé')
+    plt.axvline(var_gen, linestyle='--', label='Q99 cGAN')
+    plt.title("Quantiles élevés de l’indicateur")
     plt.legend()
     plt.show()
