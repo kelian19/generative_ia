@@ -72,6 +72,7 @@ def benchmark_panels(report, observed_q99_key='q99_real', figsize=(7.1, 2.7), un
     c.bar(x, prob, .62, color=[COLORS[m] for m in models], zorder=3)
     c.axhline(obs, color=INK, lw=1.2, zorder=4)
     c.text(-.45, obs + .05 * max(prob), f'observé : {comma(obs)} %', ha='left', va='bottom', fontsize=7, bbox=dict(fc='white', ec='none', pad=1, alpha=.85), zorder=6)
+    c.set_ylim(0, max(prob + [obs]) * 1.3)
     c.set_xticks(x)
     c.set_xticklabels([LABELS[m] for m in models], fontsize=6.5)
     c.set_ylabel('P(indice > seuil) (%)')
@@ -142,7 +143,8 @@ def fig_fire_lift(report):
         rows = report['fire_validation'][split]['by_bin']
         a.bar(np.arange(len(rows)) + off, [r['fire_rate'] * 100 for r in rows], .38, color=color, zorder=3,
               label={'train': 'apprentissage (2001–2016)', 'test': 'test (2021–2024)'}[split])
-    labels = [r['bin'].replace('-inf', '< 0').replace('inf', '∞').replace('[', '').replace(')', '').replace(', ', '–') for r in rows]
+    labels = ['< 0', '0–2', '2–4', '4–6', '6–8', '8–10', '10–12', '≥ 12']
+    assert len(labels) == len(rows)
     a.set_xticks(range(len(rows)))
     a.set_xticklabels(labels, fontsize=7, rotation=30)
     a.set_xlabel('classe de C-Haines')

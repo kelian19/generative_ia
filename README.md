@@ -48,12 +48,24 @@ Les références simples sont un rééchantillonnage empirique de train et une n
 
 `notebooks.ipynb` présente le protocole et charge les résultats de benchmark. La cellule d’entraînement complet est fournie explicitement. Aucune ancienne sortie n’est embarquée. Les poids générés sont dans `artifacts/*.pt`, exclus de Git ; les paramètres de standardisation sont exportés séparément.
 
+## Jeu multi-annuel : ERA5 2001–2024 et feux observés
+
+Pour dépasser le mois unique, un second jeu est reconstruit depuis des sources publiques sans clé : ERA5 (via ARCO-ERA5, lecture partielle des seules mailles utiles) et les détections de feux de végétation NASA FIRMS MODIS C6.1. Juin à septembre, 12 UTC, même boîte, mailles terrestres sous 1 200 m ; le point de rosée vient de l’humidité spécifique, sans troncature de l’humidité relative.
+
+```sh
+python -m scripts.build_multiyear_dataset     # ~30 min, réseau ; écrit data/era5_firms_jjas_2001_2024.nc (34 Mo, hors Git)
+python -m src.run_multiyear --epochs 10 --seed 100
+python -m scripts.make_figures && python -m scripts.make_multiyear_section
+```
+
+Découpage par années entières : 2001–2016, 2017–2020, 2021–2024. Résultats : [RESULTATS_MULTIANNUEL.md](reports/RESULTATS_MULTIANNUEL.md). En bref : au seuil de démonstration (quantile 95 % de l’apprentissage), la probabilité d’au moins un feu par maille-jour est de 0,57 % au-dessus du seuil contre 0,22 % en dessous sur le test (surcote ×2,4, mais seulement ×1,4 sur l’apprentissage) ; le seuil capture 12 % des maille-jours avec feu. Le classement des réseaux diffère de celui de juillet 2023 (le GAN y était le meilleur, il est ici le moins bon). Une graine ; les détections FIRMS ne sont pas des pertes assurées.
+
 ## Limites scientifiques
 
-Un seul mois ne permet ni apprentissage saisonnier, ni validation de risque climatique à long terme. Le cGAN conditionne des échantillons scalaires sur la localisation et le mois ; il ne génère pas un champ atmosphérique conjoint. L’extrapolation numérique ne garantit pas la plausibilité d’un extrême physique. Les liens entre indice, départs de feux et pertes ne sont pas observés. Une tarification annuelle demanderait notamment un historique plus long, des garanties, des expositions et une structure de dépendance temporelle/spatiale.
+Le benchmark de juillet 2023 (un seul mois) ne permet ni apprentissage saisonnier, ni validation de risque climatique à long terme. Le cGAN conditionne des échantillons scalaires sur la localisation et le mois ; il ne génère pas un champ atmosphérique conjoint. L’extrapolation numérique ne garantit pas la plausibilité d’un extrême physique. Les liens entre indice, départs de feux et pertes ne sont pas observés. Une tarification annuelle demanderait notamment un historique plus long, des garanties, des expositions et une structure de dépendance temporelle/spatiale.
 
 ## Note méthodologique à partager
 
 [PDF — modèles, mathématiques et validation](docs/latex/note_modeles_generatifs.pdf) · [Source LaTeX](docs/latex/note_modeles_generatifs.tex).
 
-La note autonome comporte six pages. Compilation : deux passages de `pdflatex note_modeles_generatifs.tex`. Les résultats de benchmark sont ceux du protocole documenté, sans validation annuelle ou opérationnelle prétendue.
+La note comporte dix pages et sept figures (régénérables avec `python -m scripts.make_figures`). Compilation : deux passages de `pdflatex note_modeles_generatifs.tex` (ou `tectonic -X compile`). Les résultats de benchmark sont ceux du protocole documenté, sans validation opérationnelle prétendue.

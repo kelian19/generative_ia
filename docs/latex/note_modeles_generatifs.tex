@@ -73,7 +73,7 @@
 {\large VAE, objectif pondéré, GAN, WGAN-GP et cGAN.}
 \vspace{3mm}
 \begin{keybox}
-\textbf{Périmètre réel.} Le projet compare des distributions \emph{scalaires} d'un C-Haines approché depuis le fichier ERA5 fourni. Il ne simule pas un champ atmosphérique conjoint, des départs de feux ou des pertes d'assurance.
+\textbf{Périmètre réel.} Le projet compare des distributions \emph{scalaires} d'un C-Haines approché depuis le fichier ERA5 fourni. Il ne simule pas un champ atmosphérique conjoint, des départs de feux ou des pertes d'assurance. La dernière section étend l'étude à 24 étés (ERA5, 2001--2024) et confronte l'indice aux feux observés par satellite.
 \end{keybox}
 
 \section*{Un mois de données, un protocole explicite}
@@ -292,9 +292,11 @@ Pour un seuil $u$ et une indemnité $L$ :
 Le benchmark emploie $u=Q_{0,95}(H_{\rm train})$ et une indemnité hypothétique de 10\,000 unités monétaires. Le seuil est démonstratif, sans calibration contractuelle. L'unité est une maille et un pas de temps : ce calcul n'est pas une prime annuelle. Annualiser requiert une définition du contrat, un portefeuille et une structure jointe temporelle/spatiale.
 
 \subsection*{Tests et limites de validation}
-Les \textbf{21 tests} exécutés couvrent indicateur, données invalides, dates, transformations, architectures, bruit VAE, gradient penalty analytique, batches de taille 1, mises à jour, domaines, reproductibilité CPU et paiement. Le notebook est nettoyé et exécuté avec les fonctions corrigées.
+Les \textbf{29 tests} exécutés couvrent indicateur, données invalides, dates, transformations, architectures, bruit VAE, gradient penalty analytique, batches de taille 1, mises à jour, domaines, reproductibilité CPU et paiement. Le notebook est nettoyé et exécuté avec les fonctions corrigées.
 
 Les mailles ne sont pas iid ; les p-values KS restent diagnostiques. Un mois sur les mêmes localisations ne valide ni saisonnalité, ni climat futur, ni fréquence de feu, ni pertes assurées. Des années supplémentaires et des événements/pertes observés sont nécessaires avant une application d'assurance.
+
+\input{section_multiannuelle}
 
 \subsection*{Code, audit et références}\footnotesize
 \begin{itemize}[itemsep=1pt]
