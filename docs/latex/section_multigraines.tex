@@ -1,0 +1,23 @@
+% Fichier généré par python -m scripts.multi_seed ; ne pas modifier à la main.
+\subsection*{Robustesse à la graine}
+Le tableau précédent repose sur une seule graine. Le même protocole est relancé pour 5 graines (100, 101, 102, 103, 104) : seuls changent l'initialisation des réseaux, l'ordre des batchs et les tirages générés. Moyenne $\pm$ écart-type de la distance de Wasserstein, et nombre de graines où la méthode est première.
+
+\begin{center}\small
+\begin{tabular}{lrrrrr}
+\toprule
+& \multicolumn{2}{c}{Validation} & \multicolumn{3}{c}{Test déjà consulté} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-6}
+Méthode & Wasserstein & 1\textsuperscript{er} & Wasserstein & Min--max & 1\textsuperscript{er} \\
+\midrule
+Référence empirique & 0{,}295 $\pm$ 0{,}011 & 3 & 0{,}590 $\pm$ 0{,}020 & 0{,}569--0{,}621 & 1 \\
+GAN & 0{,}312 $\pm$ 0{,}063 & 2 & 0{,}453 $\pm$ 0{,}175 & 0{,}290--0{,}729 & 4 \\
+VAE & 0{,}339 $\pm$ 0{,}018 & 0 & 0{,}636 $\pm$ 0{,}062 & 0{,}567--0{,}728 & 0 \\
+WGAN-GP & 0{,}342 $\pm$ 0{,}034 & 0 & 0{,}624 $\pm$ 0{,}081 & 0{,}505--0{,}725 & 0 \\
+VAE pondéré & 0{,}354 $\pm$ 0{,}020 & 0 & 0{,}813 $\pm$ 0{,}039 & 0{,}757--0{,}851 & 0 \\
+cGAN & 0{,}440 $\pm$ 0{,}118 & 0 & 0{,}723 $\pm$ 0{,}315 & 0{,}323--1{,}161 & 0 \\
+Référence normale & 0{,}648 $\pm$ 0{,}009 & 0 & 0{,}796 $\pm$ 0{,}037 & 0{,}764--0{,}855 & 0 \\
+\bottomrule
+\end{tabular}\end{center}
+En validation, aucun réseau ne bat en moyenne la référence empirique ; en test, le GAN est le plus souvent premier mais avec une forte dispersion. Le cGAN, très proche du test avec la graine 100, ne l'est plus en moyenne : son écart-type de 0{,}31 rend ce résultat non représentatif. La corrélation de rang entre validation et test vaut 0{,}58 en moyenne. Un écart entre deux réseaux n'est interprétable que s'il dépasse la dispersion due à la graine.
+
+\smallnote{Relancée sur une autre machine, la graine 100 redonne exactement les références et le VAE pondéré ; VAE, GAN et WGAN-GP bougent de moins de 0,02 et le cGAN de 0{,}43 : la graine fixe la reproductibilité sur une même machine, pas entre plateformes, et l'entraînement adverse amplifie les écarts numériques.}

@@ -62,6 +62,20 @@ python -m scripts.make_figures && python -m scripts.make_multiyear_section
 
 Découpage par années entières : 2001–2016, 2017–2020, 2021–2024. Résultats : [RESULTATS_MULTIANNUEL.md](reports/RESULTATS_MULTIANNUEL.md). En bref : au seuil de démonstration (quantile 95 % de l’apprentissage), la probabilité d’au moins un feu par maille-jour est de 0,57 % au-dessus du seuil contre 0,22 % en dessous sur le test (surcote ×2,4, mais seulement ×1,4 sur l’apprentissage) ; le seuil capture 12 % des maille-jours avec feu. Le classement des réseaux diffère de celui de juillet 2023 (le GAN y était le meilleur, il est ici le moins bon). Une graine ; les détections FIRMS ne sont pas des pertes assurées.
 
+## Robustesse à la graine
+
+Le benchmark de juillet 2023 reposait sur une seule graine. `python -m scripts.multi_seed` le relance à l'identique pour 5 graines (100 à 104) : [RESULTATS_MULTIGRAINES.md](reports/RESULTATS_MULTIGRAINES.md).
+
+| Méthode | Wasserstein validation (moyenne ± écart-type) | Wasserstein test | Fois 1er en test |
+|---|---:|---:|---:|
+| Référence empirique | **0,295 ± 0,011** | 0,590 ± 0,020 | 1 |
+| GAN | 0,312 ± 0,063 | **0,453 ± 0,175** | 4 |
+| VAE | 0,339 ± 0,018 | 0,636 ± 0,062 | 0 |
+| WGAN-GP | 0,342 ± 0,034 | 0,624 ± 0,081 | 0 |
+| cGAN | 0,440 ± 0,118 | 0,723 ± 0,315 | 0 |
+
+En validation, aucun réseau ne bat en moyenne la référence empirique. En test, le GAN est le plus souvent premier, mais avec une dispersion forte. Le très bon résultat du cGAN avec la graine 100 (0,374) n'est pas représentatif : sa moyenne est de 0,723. Relancée sur une autre machine, la graine 100 redonne exactement les références, mais le cGAN change fortement : la graine ne garantit la reproductibilité que sur une même machine.
+
 ## Limites scientifiques
 
 Le benchmark de juillet 2023 (un seul mois) ne permet ni apprentissage saisonnier, ni validation de risque climatique à long terme. Le cGAN conditionne des échantillons scalaires sur la localisation et le mois ; il ne génère pas un champ atmosphérique conjoint. L’extrapolation numérique ne garantit pas la plausibilité d’un extrême physique. Les liens entre indice, départs de feux et pertes ne sont pas observés. Une tarification annuelle demanderait notamment un historique plus long, des garanties, des expositions et une structure de dépendance temporelle/spatiale.

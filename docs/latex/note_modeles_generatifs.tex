@@ -58,7 +58,7 @@
 \pagestyle{fancy}
 \fancyhf{}
 \fancyhead[L]{\small\bfseries\color{Forest}RISQUE CLIMATIQUE / MODÈLES GÉNÉRATIFS}
-\fancyhead[R]{\small\color{Muted}Version du 12 novembre 2026}
+\fancyhead[R]{\small\color{Muted}Version du 24 novembre 2026}
 \fancyfoot[L]{\footnotesize\color{Muted}Méthodes implémentées, résultats mesurés, limites explicites.}
 \fancyfoot[R]{\footnotesize\color{Forest}\thepage\,/\,\pageref{LastPage}}
 \renewcommand{\headrulewidth}{0pt}
@@ -283,6 +283,8 @@ Le Q99 observé sur les derniers jours de test vaut \textbf{9,7857}. Les quantil
 \includegraphics[width=\linewidth]{figures/fig_july_benchmark.pdf}
 \caption{Benchmark de juillet 2023 (graine 100, dix époques). Les réseaux ne battent pas systématiquement la référence empirique ; le classement diffère entre validation et test, et les quantiles élevés générés restent au-dessus du quantile observé sur les derniers jours.}\label{fig:july}
 \end{figure}
+
+\input{section_multigraines}
 
 \subsection*{Un paiement par observation, sans annualisation implicite}
 Pour un seuil $u$ et une indemnité $L$ :

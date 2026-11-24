@@ -1,0 +1,888 @@
+{
+  "seeds": [
+    100,
+    101,
+    102,
+    103,
+    104
+  ],
+  "epochs_budget_per_model": 10,
+  "n_samples": 10000,
+  "reproducibility": {
+    "seed": 100,
+    "max_abs_diff_wasserstein_vs_published_by_model": {
+      "empirical_train": 0.0,
+      "gaussian_train": 2.220446049250313e-16,
+      "vae": 0.0030501439951261533,
+      "vae_weighted": 1.8415951728689706e-05,
+      "gan": 0.017104795429435216,
+      "wgan_gp": 0.0017464247295708724,
+      "cgan": 0.43440244407636286
+    },
+    "platform": "Windows-11-10.0.26300-SP0",
+    "note": "Le benchmark publié a été produit sur une autre machine ; les écarts viennent de différences numériques de plateforme, amplifiées par l’entraînement adverse."
+  },
+  "summary": [
+    {
+      "model": "cgan",
+      "split": "test",
+      "w_mean": 0.7233870587358484,
+      "w_sd": 0.31468502235575735,
+      "w_min": 0.3226797895783521,
+      "w_max": 1.1608007797067814,
+      "q99_mean": 11.662861074447633,
+      "q99_sd": 0.5563652522474778,
+      "p_mean": 0.048299999999999996,
+      "p_sd": 0.011937755232873555,
+      "rank_mean": 4.4,
+      "rank_best": 0
+    },
+    {
+      "model": "cgan",
+      "split": "validation",
+      "w_mean": 0.43975976364216474,
+      "w_sd": 0.1179258769364346,
+      "w_min": 0.3155413283027646,
+      "w_max": 0.5702062986749692,
+      "q99_mean": 11.688903270721438,
+      "q99_sd": 0.5345779018095259,
+      "p_mean": 0.04566,
+      "p_sd": 0.011606808346828168,
+      "rank_mean": 5.2,
+      "rank_best": 0
+    },
+    {
+      "model": "empirical_train",
+      "split": "test",
+      "w_mean": 0.5895044934205227,
+      "w_sd": 0.019560117060798386,
+      "w_min": 0.5687141229154168,
+      "w_max": 0.6214533595523595,
+      "q99_mean": 11.862176311492924,
+      "q99_sd": 0.09652097512513835,
+      "p_mean": 0.04844,
+      "p_sd": 0.002120848886648928,
+      "rank_mean": 2.6,
+      "rank_best": 1
+    },
+    {
+      "model": "empirical_train",
+      "split": "validation",
+      "w_mean": 0.295151491864305,
+      "w_sd": 0.011160161295829845,
+      "w_min": 0.2776014928224245,
+      "w_max": 0.30585006318694397,
+      "q99_mean": 11.862176311492924,
+      "q99_sd": 0.09652097512513835,
+      "p_mean": 0.04844,
+      "p_sd": 0.002120848886648928,
+      "rank_mean": 1.4,
+      "rank_best": 3
+    },
+    {
+      "model": "gan",
+      "split": "test",
+      "w_mean": 0.45292061932578986,
+      "w_sd": 0.17532550009980824,
+      "w_min": 0.2903793826643416,
+      "w_max": 0.7293112615013849,
+      "q99_mean": 11.358570213317874,
+      "q99_sd": 0.3680814868340062,
+      "p_mean": 0.03776,
+      "p_sd": 0.006672930390765365,
+      "rank_mean": 1.6,
+      "rank_best": 4
+    },
+    {
+      "model": "gan",
+      "split": "validation",
+      "w_mean": 0.3121273913309658,
+      "w_sd": 0.06331667150273813,
+      "w_min": 0.24629805802174848,
+      "w_max": 0.41404785555148516,
+      "q99_mean": 11.358570213317874,
+      "q99_sd": 0.3680814868340062,
+      "p_mean": 0.03776,
+      "p_sd": 0.006672930390765365,
+      "rank_mean": 2.2,
+      "rank_best": 2
+    },
+    {
+      "model": "gaussian_train",
+      "split": "test",
+      "w_mean": 0.7962088281133366,
+      "w_sd": 0.03711891932410793,
+      "w_min": 0.7642449101780384,
+      "w_max": 0.8552956705487017,
+      "q99_mean": 10.748497319977542,
+      "q99_sd": 0.14092146898842361,
+      "p_mean": 0.02914,
+      "p_sd": 0.0020403431084011327,
+      "rank_mean": 6.2,
+      "rank_best": 0
+    },
+    {
+      "model": "gaussian_train",
+      "split": "validation",
+      "w_mean": 0.6478763360009108,
+      "w_sd": 0.00872678023810543,
+      "w_min": 0.6388638779343541,
+      "w_max": 0.6571621015952613,
+      "q99_mean": 10.748497319977542,
+      "q99_sd": 0.14092146898842361,
+      "p_mean": 0.02914,
+      "p_sd": 0.0020403431084011327,
+      "rank_mean": 7.0,
+      "rank_best": 0
+    },
+    {
+      "model": "vae",
+      "split": "test",
+      "w_mean": 0.6363345727707841,
+      "w_sd": 0.06225252385848401,
+      "w_min": 0.5669304642375188,
+      "w_max": 0.7277259757743538,
+      "q99_mean": 11.603017992019655,
+      "q99_sd": 0.18991216310622147,
+      "p_mean": 0.04502,
+      "p_sd": 0.0034017642481512455,
+      "rank_mean": 3.6,
+      "rank_best": 0
+    },
+    {
+      "model": "vae",
+      "split": "validation",
+      "w_mean": 0.3388876809657573,
+      "w_sd": 0.018008838519980763,
+      "w_min": 0.31337379976070207,
+      "w_max": 0.35901972375487734,
+      "q99_mean": 11.603017992019655,
+      "q99_sd": 0.18991216310622147,
+      "p_mean": 0.04502,
+      "p_sd": 0.0034017642481512455,
+      "rank_mean": 4.0,
+      "rank_best": 0
+    },
+    {
+      "model": "vae_weighted",
+      "split": "test",
+      "w_mean": 0.8126061400196652,
+      "w_sd": 0.03898881893607573,
+      "w_min": 0.7572676220886746,
+      "w_max": 0.8506740250245305,
+      "q99_mean": 11.823208557128911,
+      "q99_sd": 0.1019545243905435,
+      "p_mean": 0.047420000000000004,
+      "p_sd": 0.0022095248357961506,
+      "rank_mean": 6.2,
+      "rank_best": 0
+    },
+    {
+      "model": "vae_weighted",
+      "split": "validation",
+      "w_mean": 0.3537562350116913,
+      "w_sd": 0.019511426173363364,
+      "w_min": 0.33772428757883527,
+      "w_max": 0.3853560711359182,
+      "q99_mean": 11.823208557128911,
+      "q99_sd": 0.1019545243905435,
+      "p_mean": 0.047420000000000004,
+      "p_sd": 0.0022095248357961506,
+      "rank_mean": 4.6,
+      "rank_best": 0
+    },
+    {
+      "model": "wgan_gp",
+      "split": "test",
+      "w_mean": 0.6235496605199164,
+      "w_sd": 0.08092167980628745,
+      "w_min": 0.5050439674578053,
+      "w_max": 0.7253173415266168,
+      "q99_mean": 12.326583175659183,
+      "q99_sd": 0.42694338392524944,
+      "p_mean": 0.055400000000000005,
+      "p_sd": 0.00523354564325181,
+      "rank_mean": 3.4,
+      "rank_best": 0
+    },
+    {
+      "model": "wgan_gp",
+      "split": "validation",
+      "w_mean": 0.34161751282117236,
+      "w_sd": 0.03423207947398582,
+      "w_min": 0.3078140650928428,
+      "w_max": 0.3904836355437984,
+      "q99_mean": 12.326583175659183,
+      "q99_sd": 0.42694338392524944,
+      "p_mean": 0.055400000000000005,
+      "p_sd": 0.00523354564325181,
+      "rank_mean": 3.6,
+      "rank_best": 0
+    }
+  ],
+  "per_seed": [
+    {
+      "seed": 100,
+      "model": "empirical_train",
+      "split": "validation",
+      "wasserstein": 0.2776014928224245,
+      "q99_gen": 11.750786132812504,
+      "trigger_probability": 0.0478,
+      "rank": 1.0
+    },
+    {
+      "seed": 100,
+      "model": "empirical_train",
+      "split": "test",
+      "wasserstein": 0.5687141229154168,
+      "q99_gen": 11.750786132812504,
+      "trigger_probability": 0.0478,
+      "rank": 2.0
+    },
+    {
+      "seed": 100,
+      "model": "gaussian_train",
+      "split": "validation",
+      "wasserstein": 0.6471620399985166,
+      "q99_gen": 10.972301181292618,
+      "trigger_probability": 0.0317,
+      "rank": 7.0
+    },
+    {
+      "seed": 100,
+      "model": "gaussian_train",
+      "split": "test",
+      "wasserstein": 0.8552956705487017,
+      "q99_gen": 10.972301181292618,
+      "trigger_probability": 0.0317,
+      "rank": 7.0
+    },
+    {
+      "seed": 100,
+      "model": "vae",
+      "split": "validation",
+      "wasserstein": 0.3299179809249057,
+      "q99_gen": 11.297444725036623,
+      "trigger_probability": 0.0398,
+      "rank": 3.0
+    },
+    {
+      "seed": 100,
+      "model": "vae",
+      "split": "test",
+      "wasserstein": 0.5956789124534413,
+      "q99_gen": 11.297444725036623,
+      "trigger_probability": 0.0398,
+      "rank": 3.0
+    },
+    {
+      "seed": 100,
+      "model": "vae_weighted",
+      "split": "validation",
+      "wasserstein": 0.3447907246136178,
+      "q99_gen": 11.777040157318124,
+      "trigger_probability": 0.046,
+      "rank": 5.0
+    },
+    {
+      "seed": 100,
+      "model": "vae_weighted",
+      "split": "test",
+      "wasserstein": 0.7923249800258837,
+      "q99_gen": 11.777040157318124,
+      "trigger_probability": 0.046,
+      "rank": 5.0
+    },
+    {
+      "seed": 100,
+      "model": "gan",
+      "split": "validation",
+      "wasserstein": 0.3199146008280847,
+      "q99_gen": 11.355624103546145,
+      "trigger_probability": 0.0366,
+      "rank": 2.0
+    },
+    {
+      "seed": 100,
+      "model": "gan",
+      "split": "test",
+      "wasserstein": 0.3274891501008761,
+      "q99_gen": 11.355624103546145,
+      "trigger_probability": 0.0366,
+      "rank": 1.0
+    },
+    {
+      "seed": 100,
+      "model": "wgan_gp",
+      "split": "validation",
+      "wasserstein": 0.3442171291217199,
+      "q99_gen": 11.910532054901129,
+      "trigger_probability": 0.0534,
+      "rank": 4.0
+    },
+    {
+      "seed": 100,
+      "model": "wgan_gp",
+      "split": "test",
+      "wasserstein": 0.6408841348881112,
+      "q99_gen": 11.910532054901129,
+      "trigger_probability": 0.0534,
+      "rank": 4.0
+    },
+    {
+      "seed": 100,
+      "model": "cgan",
+      "split": "validation",
+      "wasserstein": 0.45671691032729467,
+      "q99_gen": 11.96146635055542,
+      "trigger_probability": 0.0468,
+      "rank": 6.0
+    },
+    {
+      "seed": 100,
+      "model": "cgan",
+      "split": "test",
+      "wasserstein": 0.8043705537103514,
+      "q99_gen": 11.848985557556155,
+      "trigger_probability": 0.0502,
+      "rank": 6.0
+    },
+    {
+      "seed": 101,
+      "model": "empirical_train",
+      "split": "validation",
+      "wasserstein": 0.2923094087969638,
+      "q99_gen": 11.835845317840581,
+      "trigger_probability": 0.0511,
+      "rank": 2.0
+    },
+    {
+      "seed": 101,
+      "model": "empirical_train",
+      "split": "test",
+      "wasserstein": 0.6214533595523595,
+      "q99_gen": 11.835845317840581,
+      "trigger_probability": 0.0511,
+      "rank": 1.0
+    },
+    {
+      "seed": 101,
+      "model": "gaussian_train",
+      "split": "validation",
+      "wasserstein": 0.6571621015952613,
+      "q99_gen": 10.749747854243635,
+      "trigger_probability": 0.0296,
+      "rank": 7.0
+    },
+    {
+      "seed": 101,
+      "model": "gaussian_train",
+      "split": "test",
+      "wasserstein": 0.8077029270216429,
+      "q99_gen": 10.749747854243635,
+      "trigger_probability": 0.0296,
+      "rank": 6.0
+    },
+    {
+      "seed": 101,
+      "model": "vae",
+      "split": "validation",
+      "wasserstein": 0.35901972375487734,
+      "q99_gen": 11.69757363319397,
+      "trigger_probability": 0.0492,
+      "rank": 5.0
+    },
+    {
+      "seed": 101,
+      "model": "vae",
+      "split": "test",
+      "wasserstein": 0.7277259757743538,
+      "q99_gen": 11.69757363319397,
+      "trigger_probability": 0.0492,
+      "rank": 3.0
+    },
+    {
+      "seed": 101,
+      "model": "vae_weighted",
+      "split": "validation",
+      "wasserstein": 0.3853560711359182,
+      "q99_gen": 11.925073280334473,
+      "trigger_probability": 0.0468,
+      "rank": 6.0
+    },
+    {
+      "seed": 101,
+      "model": "vae_weighted",
+      "split": "test",
+      "wasserstein": 0.8506740250245305,
+      "q99_gen": 11.925073280334473,
+      "trigger_probability": 0.0468,
+      "rank": 7.0
+    },
+    {
+      "seed": 101,
+      "model": "gan",
+      "split": "validation",
+      "wasserstein": 0.27811704886326405,
+      "q99_gen": 11.524383392333984,
+      "trigger_probability": 0.047,
+      "rank": 1.0
+    },
+    {
+      "seed": 101,
+      "model": "gan",
+      "split": "test",
+      "wasserstein": 0.7293112615013849,
+      "q99_gen": 11.524383392333984,
+      "trigger_probability": 0.047,
+      "rank": 4.0
+    },
+    {
+      "seed": 101,
+      "model": "wgan_gp",
+      "split": "validation",
+      "wasserstein": 0.3550802425702179,
+      "q99_gen": 12.71040710449219,
+      "trigger_probability": 0.0581,
+      "rank": 4.0
+    },
+    {
+      "seed": 101,
+      "model": "wgan_gp",
+      "split": "test",
+      "wasserstein": 0.7253173415266168,
+      "q99_gen": 12.71040710449219,
+      "trigger_probability": 0.0581,
+      "rank": 2.0
+    },
+    {
+      "seed": 101,
+      "model": "cgan",
+      "split": "validation",
+      "wasserstein": 0.3155413283027646,
+      "q99_gen": 11.806977882385254,
+      "trigger_probability": 0.0514,
+      "rank": 3.0
+    },
+    {
+      "seed": 101,
+      "model": "cgan",
+      "split": "test",
+      "wasserstein": 0.7884892234393741,
+      "q99_gen": 11.724067573547364,
+      "trigger_probability": 0.0527,
+      "rank": 5.0
+    },
+    {
+      "seed": 102,
+      "model": "empirical_train",
+      "split": "validation",
+      "wasserstein": 0.2967830183362216,
+      "q99_gen": 11.99396003723145,
+      "trigger_probability": 0.0453,
+      "rank": 1.0
+    },
+    {
+      "seed": 102,
+      "model": "empirical_train",
+      "split": "test",
+      "wasserstein": 0.5818381800092317,
+      "q99_gen": 11.99396003723145,
+      "trigger_probability": 0.0453,
+      "rank": 2.0
+    },
+    {
+      "seed": 102,
+      "model": "gaussian_train",
+      "split": "validation",
+      "wasserstein": 0.6398333722445595,
+      "q99_gen": 10.587557486253104,
+      "trigger_probability": 0.03,
+      "rank": 7.0
+    },
+    {
+      "seed": 102,
+      "model": "gaussian_train",
+      "split": "test",
+      "wasserstein": 0.769136357038216,
+      "q99_gen": 10.587557486253104,
+      "trigger_probability": 0.03,
+      "rank": 5.0
+    },
+    {
+      "seed": 102,
+      "model": "vae",
+      "split": "validation",
+      "wasserstein": 0.34069796179675493,
+      "q99_gen": 11.670937948226932,
+      "trigger_probability": 0.0456,
+      "rank": 4.0
+    },
+    {
+      "seed": 102,
+      "model": "vae",
+      "split": "test",
+      "wasserstein": 0.6615598133244256,
+      "q99_gen": 11.670937948226932,
+      "trigger_probability": 0.0456,
+      "rank": 4.0
+    },
+    {
+      "seed": 102,
+      "model": "vae_weighted",
+      "split": "validation",
+      "wasserstein": 0.33772428757883527,
+      "q99_gen": 11.78411025047303,
+      "trigger_probability": 0.0483,
+      "rank": 3.0
+    },
+    {
+      "seed": 102,
+      "model": "vae_weighted",
+      "split": "test",
+      "wasserstein": 0.8163387232452444,
+      "q99_gen": 11.78411025047303,
+      "trigger_probability": 0.0483,
+      "rank": 6.0
+    },
+    {
+      "seed": 102,
+      "model": "gan",
+      "split": "validation",
+      "wasserstein": 0.3022593933902466,
+      "q99_gen": 11.835883655548102,
+      "trigger_probability": 0.0418,
+      "rank": 2.0
+    },
+    {
+      "seed": 102,
+      "model": "gan",
+      "split": "test",
+      "wasserstein": 0.5053193633729346,
+      "q99_gen": 11.835883655548102,
+      "trigger_probability": 0.0418,
+      "rank": 1.0
+    },
+    {
+      "seed": 102,
+      "model": "wgan_gp",
+      "split": "validation",
+      "wasserstein": 0.3904836355437984,
+      "q99_gen": 12.734387741088867,
+      "trigger_probability": 0.0623,
+      "rank": 5.0
+    },
+    {
+      "seed": 102,
+      "model": "wgan_gp",
+      "split": "test",
+      "wasserstein": 0.650567642313031,
+      "q99_gen": 12.734387741088867,
+      "trigger_probability": 0.0623,
+      "rank": 3.0
+    },
+    {
+      "seed": 102,
+      "model": "cgan",
+      "split": "validation",
+      "wasserstein": 0.5345231674945216,
+      "q99_gen": 12.305700855255129,
+      "trigger_probability": 0.061,
+      "rank": 6.0
+    },
+    {
+      "seed": 102,
+      "model": "cgan",
+      "split": "test",
+      "wasserstein": 1.1608007797067814,
+      "q99_gen": 12.37066879272461,
+      "trigger_probability": 0.0644,
+      "rank": 7.0
+    },
+    {
+      "seed": 103,
+      "model": "empirical_train",
+      "split": "validation",
+      "wasserstein": 0.3032134761789712,
+      "q99_gen": 11.806923370361332,
+      "trigger_probability": 0.0491,
+      "rank": 1.0
+    },
+    {
+      "seed": 103,
+      "model": "empirical_train",
+      "split": "test",
+      "wasserstein": 0.5902637102026521,
+      "q99_gen": 11.806923370361332,
+      "trigger_probability": 0.0491,
+      "rank": 4.0
+    },
+    {
+      "seed": 103,
+      "model": "gaussian_train",
+      "split": "validation",
+      "wasserstein": 0.6388638779343541,
+      "q99_gen": 10.742790949011107,
+      "trigger_probability": 0.0263,
+      "rank": 7.0
+    },
+    {
+      "seed": 103,
+      "model": "gaussian_train",
+      "split": "test",
+      "wasserstein": 0.7642449101780384,
+      "q99_gen": 10.742790949011107,
+      "trigger_probability": 0.0263,
+      "rank": 7.0
+    },
+    {
+      "seed": 103,
+      "model": "vae",
+      "split": "validation",
+      "wasserstein": 0.3514289385915463,
+      "q99_gen": 11.790969438552862,
+      "trigger_probability": 0.0445,
+      "rank": 4.0
+    },
+    {
+      "seed": 103,
+      "model": "vae",
+      "split": "test",
+      "wasserstein": 0.6297776980641813,
+      "q99_gen": 11.790969438552862,
+      "trigger_probability": 0.0445,
+      "rank": 5.0
+    },
+    {
+      "seed": 103,
+      "model": "vae_weighted",
+      "split": "validation",
+      "wasserstein": 0.34137116047814137,
+      "q99_gen": 11.931966228485107,
+      "trigger_probability": 0.0452,
+      "rank": 3.0
+    },
+    {
+      "seed": 103,
+      "model": "vae_weighted",
+      "split": "test",
+      "wasserstein": 0.7572676220886746,
+      "q99_gen": 11.931966228485107,
+      "trigger_probability": 0.0452,
+      "rank": 6.0
+    },
+    {
+      "seed": 103,
+      "model": "gan",
+      "split": "validation",
+      "wasserstein": 0.41404785555148516,
+      "q99_gen": 10.836379032135014,
+      "trigger_probability": 0.0308,
+      "rank": 5.0
+    },
+    {
+      "seed": 103,
+      "model": "gan",
+      "split": "test",
+      "wasserstein": 0.2903793826643416,
+      "q99_gen": 10.836379032135014,
+      "trigger_probability": 0.0308,
+      "rank": 1.0
+    },
+    {
+      "seed": 103,
+      "model": "wgan_gp",
+      "split": "validation",
+      "wasserstein": 0.3078140650928428,
+      "q99_gen": 12.431940803527835,
+      "trigger_probability": 0.0549,
+      "rank": 2.0
+    },
+    {
+      "seed": 103,
+      "model": "wgan_gp",
+      "split": "test",
+      "wasserstein": 0.5050439674578053,
+      "q99_gen": 12.431940803527835,
+      "trigger_probability": 0.0549,
+      "rank": 3.0
+    },
+    {
+      "seed": 103,
+      "model": "cgan",
+      "split": "validation",
+      "wasserstein": 0.5702062986749692,
+      "q99_gen": 10.896256828308108,
+      "trigger_probability": 0.0312,
+      "rank": 6.0
+    },
+    {
+      "seed": 103,
+      "model": "cgan",
+      "split": "test",
+      "wasserstein": 0.3226797895783521,
+      "q99_gen": 10.836978731155396,
+      "trigger_probability": 0.0328,
+      "rank": 2.0
+    },
+    {
+      "seed": 104,
+      "model": "empirical_train",
+      "split": "validation",
+      "wasserstein": 0.30585006318694397,
+      "q99_gen": 11.92336669921875,
+      "trigger_probability": 0.0489,
+      "rank": 2.0
+    },
+    {
+      "seed": 104,
+      "model": "empirical_train",
+      "split": "test",
+      "wasserstein": 0.5852530944229537,
+      "q99_gen": 11.92336669921875,
+      "trigger_probability": 0.0489,
+      "rank": 4.0
+    },
+    {
+      "seed": 104,
+      "model": "gaussian_train",
+      "split": "validation",
+      "wasserstein": 0.6563602882318622,
+      "q99_gen": 10.690089129087252,
+      "trigger_probability": 0.0281,
+      "rank": 7.0
+    },
+    {
+      "seed": 104,
+      "model": "gaussian_train",
+      "split": "test",
+      "wasserstein": 0.7846642757800838,
+      "q99_gen": 10.690089129087252,
+      "trigger_probability": 0.0281,
+      "rank": 6.0
+    },
+    {
+      "seed": 104,
+      "model": "vae",
+      "split": "validation",
+      "wasserstein": 0.31337379976070207,
+      "q99_gen": 11.558164215087894,
+      "trigger_probability": 0.046,
+      "rank": 4.0
+    },
+    {
+      "seed": 104,
+      "model": "vae",
+      "split": "test",
+      "wasserstein": 0.5669304642375188,
+      "q99_gen": 11.558164215087894,
+      "trigger_probability": 0.046,
+      "rank": 3.0
+    },
+    {
+      "seed": 104,
+      "model": "vae_weighted",
+      "split": "validation",
+      "wasserstein": 0.35953893125194386,
+      "q99_gen": 11.69785286903382,
+      "trigger_probability": 0.0508,
+      "rank": 6.0
+    },
+    {
+      "seed": 104,
+      "model": "vae_weighted",
+      "split": "test",
+      "wasserstein": 0.8464253497139933,
+      "q99_gen": 11.69785286903382,
+      "trigger_probability": 0.0508,
+      "rank": 7.0
+    },
+    {
+      "seed": 104,
+      "model": "gan",
+      "split": "validation",
+      "wasserstein": 0.24629805802174848,
+      "q99_gen": 11.240580883026126,
+      "trigger_probability": 0.0326,
+      "rank": 1.0
+    },
+    {
+      "seed": 104,
+      "model": "gan",
+      "split": "test",
+      "wasserstein": 0.41210393898941244,
+      "q99_gen": 11.240580883026126,
+      "trigger_probability": 0.0326,
+      "rank": 1.0
+    },
+    {
+      "seed": 104,
+      "model": "wgan_gp",
+      "split": "validation",
+      "wasserstein": 0.31049249177728294,
+      "q99_gen": 11.84564817428589,
+      "trigger_probability": 0.0483,
+      "rank": 3.0
+    },
+    {
+      "seed": 104,
+      "model": "wgan_gp",
+      "split": "test",
+      "wasserstein": 0.5959352164140184,
+      "q99_gen": 11.84564817428589,
+      "trigger_probability": 0.0483,
+      "rank": 5.0
+    },
+    {
+      "seed": 104,
+      "model": "cgan",
+      "split": "validation",
+      "wasserstein": 0.32181111341127333,
+      "q99_gen": 11.474114437103278,
+      "trigger_probability": 0.0379,
+      "rank": 5.0
+    },
+    {
+      "seed": 104,
+      "model": "cgan",
+      "split": "test",
+      "wasserstein": 0.5405949472443832,
+      "q99_gen": 11.533604717254645,
+      "trigger_probability": 0.0414,
+      "rank": 2.0
+    }
+  ],
+  "ranking_stability": [
+    {
+      "seed": 100,
+      "best_validation": "empirical_train",
+      "best_test": "gan",
+      "spearman_val_test": 0.9642857142857145
+    },
+    {
+      "seed": 101,
+      "best_validation": "gan",
+      "best_test": "empirical_train",
+      "spearman_val_test": 0.5714285714285715
+    },
+    {
+      "seed": 102,
+      "best_validation": "empirical_train",
+      "best_test": "gan",
+      "spearman_val_test": 0.642857142857143
+    },
+    {
+      "seed": 103,
+      "best_validation": "empirical_train",
+      "best_test": "gan",
+      "spearman_val_test": 0.07142857142857144
+    },
+    {
+      "seed": 104,
+      "best_validation": "gan",
+      "best_test": "gan",
+      "spearman_val_test": 0.642857142857143
+    }
+  ],
+  "note": "Même protocole et mêmes données que benchmark.json ; seule la graine change. Le test a déjà été consulté : lecture descriptive."
+}
