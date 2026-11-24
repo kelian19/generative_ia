@@ -1,5 +1,7 @@
 # Modèles génératifs de risque climatique — copie corrigée
 
+[![Tests](https://github.com/kelian19/generative_ia/actions/workflows/tests.yml/badge.svg)](https://github.com/kelian19/generative_ia/actions/workflows/tests.yml)
+
 Copie de [Kelian2909/generative_ia](https://github.com/Kelian2909/generative_ia), commit `bca170c92297e2155c28663772c2bd9914987e1f`. L’historique du dépôt source et le fichier fourni sont conservés ; les corrections sont dans **kelian19/generative_ia**.
 
 Ce projet compare VAE, VAE pondéré, GAN, WGAN-GP et cGAN sur un indicateur C-Haines approché depuis les champs ERA5 fournis. **Il s’agit d’une étude de distributions scalaires sur juillet 2023, sans validation de prime annuelle ou de scénarios de feux.**
